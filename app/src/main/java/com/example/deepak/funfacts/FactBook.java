@@ -19,7 +19,6 @@ public class FactBook {
 
     // Actions - The actions the properties can take
     public String getFact() {
-
         // Randomly generate Facts
         Random randomGenerator = new Random();
         int randomNumber = randomGenerator.nextInt(mFacts.length);
