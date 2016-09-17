@@ -1,5 +1,6 @@
 package com.example.deepak.funfacts;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +11,37 @@ import android.widget.TextView;
 
 public class FactsActivity extends AppCompatActivity {
     public static final String TAG = FactsActivity.class.getSimpleName();
+    private static final String FACT_KEY = "FACT_KEY";
+    private static final String FACT_COLOR = "FACT_COLOR";
     private FactBook mFactBook = new FactBook();
     private ColorWheel mColorWheel = new ColorWheel();
     //Declaring View Variables
     private TextView mFactTextView;
     private Button mFactButton;
     private RelativeLayout mRelativeLayout;
+    private String mFact = mFactBook.mFacts[0];
+    private int mColor = Color.parseColor(mColorWheel.mColors[8]);
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(FACT_KEY, mFact);
+        outState.putInt(FACT_COLOR, mColor);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mFact = savedInstanceState.getString(FACT_KEY);
+        mColor = savedInstanceState.getInt(FACT_COLOR);
+
+        mFactTextView.setText(mFact);
+        mRelativeLayout.setBackgroundColor(mColor);
+        mFactButton.setTextColor(mColor);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +58,12 @@ public class FactsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String fact = mFactBook.getFact();
-                int color = mColorWheel.getColor();
+                mFact = mFactBook.getFact();
+                mColor = mColorWheel.getColor();
 
-                mFactTextView.setText(fact);
-                mRelativeLayout.setBackgroundColor(color);
-                mFactButton.setTextColor(color);
+                mFactTextView.setText(mFact);
+                mRelativeLayout.setBackgroundColor(mColor);
+                mFactButton.setTextColor(mColor);
 
             }
         };
